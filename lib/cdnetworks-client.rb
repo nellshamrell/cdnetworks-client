@@ -1,6 +1,6 @@
 require "cdnetworks-client/version"
-require "cache_purge_api"
-require "config_open_api"
+require "cdnetworks-client/cache_purge_api"
+require "cdnetworks-client/config_open_api"
 
 class CdnetworksClient
   include ConfigOpenApi
