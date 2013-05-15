@@ -1,6 +1,6 @@
-# CDNetworks API Wrapper
+# Cdnetworks Client
 
-The CDNetworks API Wrapper is a simple wrapper for
+The Cdnetworks Client is a simple wrapper for
 * Config Open API v1.0
 * Cache Purge Open API v2.0
 
@@ -11,14 +11,14 @@ This gem allows a user to call methods from either of these APIs using the same 
 
 # Installation
 (Once this is on Rubygems)
-<pre> gem install cdnetworks-api-wrapper </pre>
+<pre> gem install cdnetworks-client </pre>
 
 # Usage
 
-## Creating an instance of CDNetworks API Wrapper
+## Creating an instance of Cdnetworks Client
 Create an instance:
 <pre>
-  cdn = CDNetworksApi.new({:user => [Your CDNetworks User Name], :password => [Your CDNetworks Password]})
+  cdn = CdnetworksClient.new({:user => [Your CDNetworks User Name], :password => [Your CDNetworks Password]})
 </pre>
 
 CDNetworks uses different access domains for some locations.  You can optionally specify a location when you create a new instance.
@@ -31,7 +31,7 @@ You can specify the following locations:
 * China (uses access domain https://openapi.txnetworks.cn)
 
 <pre>
-  cdn = CDNetworksApi.new(
+  cdn = CdnetworksClient.new(
     :user => [Your CDNetworks User Name],
     :password => [Your CDNetworks Password],
     :location => "Korea"
