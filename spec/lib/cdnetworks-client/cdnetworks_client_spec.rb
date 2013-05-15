@@ -6,7 +6,7 @@ describe CdnetworksClient do
     @password          = "secret"
     @cdn_api           = CdnetworksClient.new({
                            :user     => @user,
-                           :password => @password
+                           :pass => @password
                          })
 
     @url               = "https://openapi.us.cdnetworks.com"

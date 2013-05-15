@@ -9,7 +9,7 @@ class CdnetworksClient
 
   def initialize(credentials={})
     @user       = credentials[:user]
-    @password   = credentials[:password]
+    @password   = credentials[:pass]
     @location   = credentials[:location]
   end
 
