@@ -4,10 +4,10 @@ describe CdnetworksClient do
   before(:each) do
     @user              = "user@user.com"
     @password          = "secret"
-    @cdn_api           = CdnetworksClient.new({
+    @cdn_api           = CdnetworksClient.new(
                            :user     => @user,
                            :pass => @password
-                         })
+                         )
 
     @url               = "https://openapi.us.cdnetworks.com"
   end
