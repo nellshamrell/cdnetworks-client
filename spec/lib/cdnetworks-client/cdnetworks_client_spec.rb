@@ -15,19 +15,6 @@ describe CdnetworksClient do
   context "retrieving pad list" do
     before(:each) do
       stub_request(:post, "#{@url}/config/rest/pan/site/list").
-        with(:body    => {"pass"=>@password, "user"=>"#{@user}"},
-             :headers => {
-                           'Accept'      =>'*/*',
-                           'Content-Type'=>'application/x-www-form-urlencoded',
-                           'User-Agent'  =>'Ruby'}).
-        to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/config/rest/pan/site/list").
-        with(:body    => {"pass"=>@password, "prod"=>"true", "user"=>"#{@user}"},
-             :headers => {
-                           'Accept'      =>'*/*',
-                           'Content-Type'=>'application/x-www-form-urlencoded',
-                           'User-Agent'  =>'Ruby'}).
         to_return(:status => 200, :body => "", :headers => {})
     end
 
@@ -59,19 +46,6 @@ describe CdnetworksClient do
   context "view pad info" do
     before(:each) do
       stub_request(:post, "#{@url}/config/rest/pan/site/view").
-        with(:body    => {"pass"=>@password, "user"=>"#{@user}"},
-             :headers => {
-                           'Accept'      =>'*/*',
-                           'Content-Type'=>'application/x-www-form-urlencoded',
-                           'User-Agent'  =>'Ruby'}).
-        to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/config/rest/pan/site/view").
-        with(:body    => {"pad"=>"cache.foo.com", "pass"=>@password, "user"=>"#{@user}"},
-             :headers => {
-                           'Accept'      =>'*/*',
-                           'Content-Type'=>'application/x-www-form-urlencoded',
-                           'User-Agent'  =>'Ruby'}).
         to_return(:status => 200, :body => "", :headers => {})
     end
 
@@ -104,19 +78,6 @@ describe CdnetworksClient do
   context "add a pad" do
     before(:each) do
       stub_request(:post, "#{@url}/config/rest/pan/site/add").
-      with(:body    => {"pass"=>@password, "user"=>"#{@user}"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/config/rest/pan/site/add").
-      with(:body    => {"pass"=>@password, "user"=>"#{@user}", "origin"=>"neworigin.foo.com", "pad"=> "cache.foo.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
     end
 
@@ -148,19 +109,6 @@ describe CdnetworksClient do
   context "edit a pad" do
     before(:each) do
       stub_request(:post, "#{@url}/config/rest/pan/site/edit").
-      with(:body    => {"pass"=>@password, "user"=>"#{@user}"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/config/rest/pan/site/edit").
-      with(:body    => {"pass"=>@password, "user"=>"#{@user}", "honor_byte_range" => "1", "pad" => "cache.foo.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
     end
 
@@ -191,28 +139,15 @@ describe CdnetworksClient do
 
   context "purging a cache" do
     before(:each) do
-      stub_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => {"pad"=>"pad.foo.com", "pass"=>"secret", "user"=>"user@user.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
+      stub_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
       to_return(:status => 200, :body => "", :headers => {})
     end
 
     it "calls the purge method of the cdnetworks api" do
-      @cdn_api.do_purge
+      @cdn_api.execute_cache_purge
 
-      a_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => 'user=user%40user.com&pass=secret',
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+      with(:body    => 'userId=user%40user.com&password=secret',
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',
@@ -221,10 +156,22 @@ describe CdnetworksClient do
     end
 
     it "includes the options passed as a hash" do
-      @cdn_api.do_purge(:pad => "pad.foo.com")
+      @cdn_api.execute_cache_purge(:purgeUriList => "cdn.example.com")
 
-      a_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => 'pad=pad.foo.com&user=user%40user.com&pass=secret',
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+      with(:body    => 'purgeUriList=cdn.example.com&userId=user%40user.com&password=secret',
+           :headers => {
+                         'Accept'      =>'*/*',
+                         'Content-Type'=>'application/x-www-form-urlencoded',
+                         'User-Agent'  =>'Ruby'}).
+      should have_been_made
+    end
+
+    it "handles options passed as an array" do
+      @cdn_api.execute_cache_purge(:purgeUriList => ["cdn.example.com", "pad.foo.com"])
+
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+      with(:body    => 'purgeUriList=cdn.example.com&purgeUriList=pad.foo.com&userId=user%40user.com&password=secret',
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',
@@ -233,86 +180,17 @@ describe CdnetworksClient do
     end
   end
 
-  context "getting a pad domain list" do
+  context "getting a cache domain list" do
     before(:each) do
-      stub_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com", "output"=>"json"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
+	stub_request(:post, "https://openapi.us.cdnetworks.com/OpenAPI/services/CachePurgeAPI/getCacheDomainList").
+        to_return(:status => 200, :body => "", :headers => {})
     end
 
     it "calls the cache domain list method of the cdnetworks api" do
-      @cdn_api.pad_list
+      @cdn_api.get_cache_domain_list
 
-      a_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => 'user=user%40user.com&pass=secret',
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      should have_been_made
-    end
-
-    it "includes the options passed as a hash" do
-      @cdn_api.pad_list(:output => "json")
-
-      a_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => 'output=json&user=user%40user.com&pass=secret',
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      should have_been_made
-    end
-  end
-
-  context "getting purge completion status" do
-    before(:each) do
-      stub_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com", "pid"=>"1"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-    end
-
-    it "calls the status method of the cdnetworks api" do
-      @cdn_api.status
-
-      a_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => 'user=user%40user.com&pass=secret',
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      should have_been_made
-    end
-
-    it "includes the options passed as a hash" do
-      @cdn_api.status(:pid => "1")
-
-      a_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => 'pid=1&user=user%40user.com&pass=secret',
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/getCacheDomainList").
+      with(:body    => 'userId=user%40user.com&password=secret',
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',
