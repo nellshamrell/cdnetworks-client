@@ -1,5 +1,6 @@
 module CachePurgeApi
   def execute_cache_purge(options={})
+  puts "firing"
     call(open_api_path("executeCachePurge"),add_purge_credentials(options))
   end
 

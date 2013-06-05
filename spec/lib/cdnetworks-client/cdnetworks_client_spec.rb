@@ -192,22 +192,20 @@ describe CdnetworksClient do
   context "purging a cache" do
     before(:each) do
       stub_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
-      with(:body    => {"password"=>"secret", "userId"=>"user@user.com"},
+      with(:body    => {
+                         "password"=>"secret",
+			 "userId"=>"user@user.com"
+		       },
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',
                          'User-Agent'  =>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
 
-=begin
-      stub_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => {"pad"=>"pad.foo.com", "pass"=>"secret", "user"=>"user@user.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-=end
+      stub_request(:post, "https://openapi.us.cdnetworks.com/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+        with(:body => {"password"=>"secret", "purgeUriList"=>"pad.foo.com", "userId"=>"user@user.com"},
+	       :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Ruby'}).
+	         to_return(:status => 200, :body => "", :headers => {})
     end
 
     it "calls the purge method of the cdnetworks api" do
@@ -223,10 +221,22 @@ describe CdnetworksClient do
     end
 
     it "includes the options passed as a hash" do
-      @cdn_api.do_purge(:pad => "pad.foo.com")
+      @cdn_api.execute_cache_purge(:purgeUriList => "cdn.example.com")
 
-      a_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => 'pad=pad.foo.com&user=user%40user.com&pass=secret',
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+      with(:body    => 'purgeUriList=cdn.example.com&userId=user%40user.com&password=secret',
+           :headers => {
+                         'Accept'      =>'*/*',
+                         'Content-Type'=>'application/x-www-form-urlencoded',
+                         'User-Agent'  =>'Ruby'}).
+      should have_been_made
+    end
+
+    it "handles options passed as an array" do
+      @cdn_api.execute_cache_purge(:purgeUriList => ["cdn.example.com", "pad.foo.com"])
+
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+      with(:body    => 'purgeUriList=cdn.example.com&purgeUriList=pad.foo.com&userId=user%40user.com&password=secret',
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',
