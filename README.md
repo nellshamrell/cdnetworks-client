@@ -69,16 +69,14 @@ You can also add in parameters
 
 ## Purging a cache
 <pre>
-  cdn.do_purge(:pad => "pad.foo.com")
+  cdn.execute_cache_purge(:purgeUriList => "cdn.example.com")
 </pre>
 
-## Checking the status of a purge
-NOTE: When a user makes a purge request to CDNetworks, it assigns the request an id called the "pid." This id is used to check the status of the purge request.
 <pre>
-  cdn.status(:pid => "1")
+  cdn.execute_cache_purge(:purgeUriList => ["cdn.example.com", "cdn.foo.com"]
 </pre>
 
 ## Listing all PAD domain names
 <pre>
-  cdn.pad_list(:output => "json")
+  cdn.get_cache_domain_list
 </pre>
