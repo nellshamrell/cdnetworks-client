@@ -21,7 +21,7 @@ class CdnetworksClient
   end
 
   def compose_request(path,options)
-    add_credentials(options)
+#    add_credentials(options)
 
     request = Net::HTTP::Post.new("#{base_url(@location)}#{path}")
     request.set_form_data(options)

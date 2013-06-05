@@ -191,14 +191,15 @@ describe CdnetworksClient do
 
   context "purging a cache" do
     before(:each) do
-      stub_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com"},
+      stub_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+      with(:body    => {"password"=>"secret", "userId"=>"user@user.com"},
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',
                          'User-Agent'  =>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
 
+=begin
       stub_request(:post, "#{@url}/purge/rest/doPurge").
       with(:body    => {"pad"=>"pad.foo.com", "pass"=>"secret", "user"=>"user@user.com"},
            :headers => {
@@ -206,13 +207,14 @@ describe CdnetworksClient do
                          'Content-Type'=>'application/x-www-form-urlencoded',
                          'User-Agent'  =>'Ruby'}).
       to_return(:status => 200, :body => "", :headers => {})
+=end
     end
 
     it "calls the purge method of the cdnetworks api" do
-      @cdn_api.do_purge
+      @cdn_api.execute_cache_purge
 
-      a_request(:post, "#{@url}/purge/rest/doPurge").
-      with(:body    => 'user=user%40user.com&pass=secret',
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/executeCachePurge").
+      with(:body    => 'userId=user%40user.com&password=secret',
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',

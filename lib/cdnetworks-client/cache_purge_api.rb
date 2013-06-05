@@ -1,6 +1,6 @@
 module CachePurgeApi
-  def do_purge(options={})
-    call(open_api_path("doPurge"),options)
+  def execute_cache_purge(options={})
+    call(open_api_path("executeCachePurge"),add_purge_credentials(options))
   end
 
   def pad_list(options={})
@@ -12,6 +12,13 @@ module CachePurgeApi
   end
 
   def open_api_path(command)
-    "/purge/rest/#{command}"
+    "/OpenAPI/services/CachePurgeAPI/#{command}"
+  end
+
+  def add_purge_credentials(options)
+    options[:userId] = @user
+    options[:password] = @password
+
+    options
   end
 end
