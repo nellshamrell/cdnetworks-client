@@ -18,7 +18,7 @@ This gem allows a user to call methods from either of these APIs using the same 
 ## Creating an instance of Cdnetworks Client
 Create an instance:
 <pre>
-  cdn = CdnetworksClient.new({:user => [Your CDNetworks User Name], :password => [Your CDNetworks Password]})
+  cdn = CdnetworksClient.new({:user => [Your CDNetworks User Name], :pass => [Your CDNetworks Password]})
 </pre>
 
 CDNetworks uses different access domains for some locations.  You can optionally specify a location when you create a new instance.
@@ -32,8 +32,8 @@ You can specify the following locations:
 
 <pre>
   cdn = CdnetworksClient.new(
-    :user => [Your CDNetworks User Name],
-    :password => [Your CDNetworks Password],
+    :user     => [Your CDNetworks User Name],
+    :pass     => [Your CDNetworks Password],
     :location => "Korea"
   )
 </pre>
