@@ -289,50 +289,6 @@ describe CdnetworksClient do
     end
   end
 
-  context "getting purge completion status" do
-    before(:each) do
-      stub_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com", "pid"=>"1"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-    end
-
-    it "calls the status method of the cdnetworks api" do
-      @cdn_api.status
-
-      a_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => 'user=user%40user.com&pass=secret',
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      should have_been_made
-    end
-
-    it "includes the options passed as a hash" do
-      @cdn_api.status(:pid => "1")
-
-      a_request(:post, "#{@url}/purge/rest/status").
-      with(:body    => 'pid=1&user=user%40user.com&pass=secret',
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      should have_been_made
-    end
-  end
-
   context "locations" do
     it "uses the US access domain by default" do
       request = @cdn_api.compose_request("/some/path",{})

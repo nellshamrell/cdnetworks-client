@@ -8,10 +8,6 @@ module CachePurgeApi
     call(open_api_path("padList"),options)
   end
 
-  def status(options={})
-    call(open_api_path("status"),options)
-  end
-
   def open_api_path(command)
     "/OpenAPI/services/CachePurgeAPI/#{command}"
   end
