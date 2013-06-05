@@ -4,8 +4,8 @@ module CachePurgeApi
     call(open_api_path("executeCachePurge"),add_purge_credentials(options))
   end
 
-  def pad_list(options={})
-    call(open_api_path("padList"),options)
+  def get_cache_domain_list(options={})
+    call(open_api_path("getCacheDomainList"),add_purge_credentials(options))
   end
 
   def open_api_path(command)

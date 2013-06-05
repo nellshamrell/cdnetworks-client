@@ -245,42 +245,27 @@ describe CdnetworksClient do
     end
   end
 
-  context "getting a pad domain list" do
+  context "getting a cache domain list" do
     before(:each) do
-      stub_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
-
-      stub_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => {"pass"=>"secret", "user"=>"user@user.com", "output"=>"json"},
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      to_return(:status => 200, :body => "", :headers => {})
+	stub_request(:post, "https://openapi.us.cdnetworks.com/OpenAPI/services/CachePurgeAPI/getCacheDomainList").
+        with(
+	  :body => {
+	             "password"=>"secret",
+		     "userId"=>"user@user.com"
+		   },
+	  :headers => {
+	                'Accept'=>'*/*',
+			'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+			'Content-Type'=>'application/x-www-form-urlencoded',
+			'User-Agent'=>'Ruby'}).
+        to_return(:status => 200, :body => "", :headers => {})
     end
 
     it "calls the cache domain list method of the cdnetworks api" do
-      @cdn_api.pad_list
+      @cdn_api.get_cache_domain_list
 
-      a_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => 'user=user%40user.com&pass=secret',
-           :headers => {
-                         'Accept'      =>'*/*',
-                         'Content-Type'=>'application/x-www-form-urlencoded',
-                         'User-Agent'  =>'Ruby'}).
-      should have_been_made
-    end
-
-    it "includes the options passed as a hash" do
-      @cdn_api.pad_list(:output => "json")
-
-      a_request(:post, "#{@url}/purge/rest/padList").
-      with(:body    => 'output=json&user=user%40user.com&pass=secret',
+      a_request(:post, "#{@url}/OpenAPI/services/CachePurgeAPI/getCacheDomainList").
+      with(:body    => 'userId=user%40user.com&password=secret',
            :headers => {
                          'Accept'      =>'*/*',
                          'Content-Type'=>'application/x-www-form-urlencoded',
