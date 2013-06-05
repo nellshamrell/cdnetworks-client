@@ -13,13 +13,6 @@ class CdnetworksClient
     @location   = credentials[:location]
   end
 
-  def add_credentials(options)
-    options[:user]     = @user
-    options[:pass] = @password
-
-    options
-  end
-
   def compose_request(path,options)
 #    add_credentials(options)
 
