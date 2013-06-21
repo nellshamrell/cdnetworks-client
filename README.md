@@ -18,7 +18,7 @@ This gem allows a user to call methods from either of these APIs using the same 
 ## Creating an instance of Cdnetworks Client
 Create an instance:
 <pre>
-  cdn = CdnetworksClient.new({:user => [Your CDNetworks User Name], :pass => [Your CDNetworks Password]})
+  cdn = CdnetworksClient.new(:user => [Your CDNetworks User Name], :pass => [Your CDNetworks Password])
 </pre>
 
 CDNetworks uses different access domains for some locations.  You can optionally specify a location when you create a new instance.
@@ -41,6 +41,8 @@ You can specify the following locations:
 Again, the default location is US/Global using the access domain https://openapi.us.cdnetworks.com
 
 Please see the CDNetworks API documentation for a full list of options and parameters for each API call
+
+After each call, the gem will return a hash including the response code and the response body from CDNetworks.
 
 ## Listing PADs and their information
 <pre>
