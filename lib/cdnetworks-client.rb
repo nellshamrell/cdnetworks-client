@@ -22,7 +22,7 @@ class CdnetworksClient
   def call(path,options)
     begin
       response = http.request(compose_request(path,options))
-      response.body
+      response_hash = { code: response.code, body: response.body }
     rescue StandardError=>e
       puts "An error has occurred connecting to the CDNetworks API (#{e})"
     end
