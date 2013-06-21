@@ -14,8 +14,6 @@ class CdnetworksClient
   end
 
   def compose_request(path,options)
-#    add_credentials(options)
-
     request = Net::HTTP::Post.new("#{base_url(@location)}#{path}")
     request.set_form_data(options)
     request
@@ -24,7 +22,7 @@ class CdnetworksClient
   def call(path,options)
     begin
       response = http.request(compose_request(path,options))
-      response.body
+      response_hash = { code: response.code, body: response.body }
     rescue StandardError=>e
       puts "An error has occurred connecting to the CDNetworks API (#{e})"
     end
