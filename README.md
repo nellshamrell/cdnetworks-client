@@ -51,7 +51,7 @@ After each call, the gem will return a hash including the response code and the 
 
 You can also add in parameters
 <pre>
-  cdn.list(:prod => true)
+  cdn.list(:prod => 1)
 </pre>
 
 ## Viewing a PAD
