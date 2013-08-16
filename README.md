@@ -82,3 +82,6 @@ You can also add in parameters
 <pre>
   cdn.get_cache_domain_list
 </pre>
+
+# License
+License is Apache License v2.0 by Blue Box, Inc., Nell Shamrell, unless otherwise noted.
