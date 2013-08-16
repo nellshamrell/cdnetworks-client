@@ -1,6 +1,6 @@
 # Cdnetworks Client
 
-The Cdnetworks Client is a simple wrapper for
+The Cdnetworks Client is a simple wrapper for two [Cdnetworks](http://www.cdnetworks.com/) APIs
 * Config Open API v1.0
 * Cache Purge Open API v2.0
 
