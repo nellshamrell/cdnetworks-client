@@ -75,7 +75,7 @@ You can also add in parameters
 </pre>
 
 <pre>
-  cdn.execute_cache_purge(:purgeUriList => ["cdn.example.com", "cdn.foo.com"]
+  cdn.execute_cache_purge(:purgeUriList => ["cdn.example.com", "cdn.foo.com"])
 </pre>
 
 ## Listing all PAD domain names
