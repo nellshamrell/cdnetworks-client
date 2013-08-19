@@ -10,9 +10,13 @@ This gem allows a user to call methods from either of these APIs using the same 
 * A CDNetworks OCSP Account
 
 # Installation
-(Once this is on Rubygems)
 <pre> gem install cdnetworks-client </pre>
 
+Or, in your Gemfile, add
+<pre> gem 'cdnetworks-client' </pre>
+
+And run
+<pre> bundle </pre>
 # Usage
 
 ## Creating an instance of Cdnetworks Client
