@@ -252,7 +252,9 @@ describe CdnetworksClient do
     end
 
     it "returns an error" do
-      @cdn_api.list.should raise_error
+      error_result = @cdn_api.list
+      error_result.should include("An error has occurred")
+      error_result.should include("execution expired")
     end
   end
 

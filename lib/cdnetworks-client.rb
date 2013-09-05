@@ -24,7 +24,7 @@ class CdnetworksClient
       response = http.request(compose_request(path,options))
       response_hash = { code: response.code, body: response.body }
     rescue StandardError=>e
-      puts "An error has occurred connecting to the CDNetworks API (#{e})"
+      "An error has occurred connecting to the CDNetworks API (#{e})"
     end
   end
 
