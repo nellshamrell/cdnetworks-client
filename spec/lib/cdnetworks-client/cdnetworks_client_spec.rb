@@ -183,7 +183,7 @@ describe CdnetworksClient do
 
     context "getting a cache domain list" do
       before(:each) do
-    stub_request(:post, "https://openapi.us.cdnetworks.com/OpenAPI/services/CachePurgeAPI/getCacheDomainList").
+        stub_request(:post, "https://openapi.us.cdnetworks.com/OpenAPI/services/CachePurgeAPI/getCacheDomainList").
           to_return(:status => 200, :body => "", :headers => {})
       end
 
@@ -203,11 +203,45 @@ describe CdnetworksClient do
 
   context "with Cache Flush Open API v2.3.2" do
     context "purging a cache" do
-      it "calls the purge method"
+      before(:each) do
+        stub_request(:post, "#{@url}/purge/rest/doPurge").
+          to_return(:status => 200, :body => "", :headers => {})
+      end
 
-      it "handles options passed as a hash"
+      it "calls the purge method" do
+        @cdn_api.do_purge
 
-      it "handles options passed as an array"
+        a_request(:post, "#{@url}/purge/rest/doPurge").
+        with(:body    => 'user=user%40user.com&pass=secret',
+             :headers => {
+                           'Accept'      =>'*/*',
+                           'Content-Type'=>'application/x-www-form-urlencoded',
+                           'User-Agent'  =>'Ruby'}).
+        should have_been_made
+      end
+
+      it "handles options passed as a hash" do
+        @cdn_api.do_purge(:pad => "cdn.example.com", :type => "all")
+
+        a_request(:post, "#{@url}/purge/rest/doPurge").
+        with(:body    => 'pad=cdn.example.com&type=all&user=user%40user.com&pass=secret',
+             :headers => {
+                           'Accept'      =>'*/*',
+                           'Content-Type'=>'application/x-www-form-urlencoded',
+                           'User-Agent'  =>'Ruby'}).
+        should have_been_made
+      end
+
+      it "handles options passed as an array" do
+        @cdn_api.do_purge(:path => ["/images/one.jpg", "/images/two.jpg"])
+        a_request(:post, "#{@url}/purge/rest/doPurge").
+        with(:body    => 'path=%2Fimages%2Fone.jpg&path=%2Fimages%2Ftwo.jpg&user=user%40user.com&pass=secret',
+             :headers => {
+                           'Accept'      =>'*/*',
+                           'Content-Type'=>'application/x-www-form-urlencoded',
+                           'User-Agent'  =>'Ruby'}).
+        should have_been_made
+      end
     end
 
     context "getting a list of PADs" do

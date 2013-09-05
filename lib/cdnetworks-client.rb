@@ -1,10 +1,12 @@
 require "cdnetworks-client/version"
 require "cdnetworks-client/cache_purge_api"
 require "cdnetworks-client/config_open_api"
+require "cdnetworks-client/cache_flush_open_api"
 
 class CdnetworksClient
   include ConfigOpenApi
   include CachePurgeApi
+  include CacheFlushOpenApi
 
 
   def initialize(credentials={})
