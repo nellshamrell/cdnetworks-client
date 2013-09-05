@@ -245,13 +245,43 @@ describe CdnetworksClient do
     end
 
     context "getting a list of PADs" do
-      it "calls the list method"
+      it "calls the list method" do
+        @cdn_api.pad_list
+
+        a_request(:post, "#{@url}/purge/rest/padList").
+        with(:body    => 'user=user%40user.com&pass=secret',
+             :headers => {
+                           'Accept'      =>'*/*',
+                           'Content-Type'=>'application/x-www-form-urlencoded',
+                           'User-Agent'  =>'Ruby'}).
+        should have_been_made
+      end
     end
 
     context "get the status of a purge" do
-      it "calls the status method"
+      it "calls the status method" do
+        @cdn_api.status
 
-      it "handles options passsed as a hash"
+        a_request(:post, "#{@url}/purge/rest/status").
+        with(:body    => 'user=user%40user.com&pass=secret',
+             :headers => {
+                           'Accept'      =>'*/*',
+                           'Content-Type'=>'application/x-www-form-urlencoded',
+                           'User-Agent'  =>'Ruby'}).
+        should have_been_made
+      end
+
+      it "handles options passsed as a hash" do
+        @cdn_api.status(pid: 1234)
+
+        a_request(:post, "#{@url}/purge/rest/status").
+        with(:body    => 'pid=1234&user=user%40user.com&pass=secret',
+             :headers => {
+                           'Accept'      =>'*/*',
+                           'Content-Type'=>'application/x-www-form-urlencoded',
+                           'User-Agent'  =>'Ruby'}).
+        should have_been_made
+      end
     end
   end
 

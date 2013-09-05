@@ -4,6 +4,14 @@ module CacheFlushOpenApi
     call(cache_flush_path("doPurge"),add_flush_credentials(options))
   end
 
+  def pad_list(options={})
+    call(cache_flush_path("padList"),add_flush_credentials(options))
+  end
+
+  def status(options={})
+    call(cache_flush_path("status"),add_flush_credentials(options))
+  end
+
   def cache_flush_path(command)
     "/purge/rest/#{command}"
   end
