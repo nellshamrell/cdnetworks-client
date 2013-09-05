@@ -83,7 +83,7 @@ You can also add in parameters
 </pre>
 
 <pre>
-  cdn.do_purge(:pad => "cdn.example.com", :path => ["images/one.jpg", "images/two.jpg")
+  cdn.do_purge(:pad => "cdn.example.com", :path => ["images/one.jpg", "images/two.jpg"])
 </pre>
 
 ### If you are using Cache Purge Open API v2.0
